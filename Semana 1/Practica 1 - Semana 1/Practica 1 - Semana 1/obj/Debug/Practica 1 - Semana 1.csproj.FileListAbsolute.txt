@@ -1,0 +1,22 @@
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\bin\Debug\Practica 1 - Semana 1.exe.config
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\bin\Debug\Practica 1 - Semana 1.exe
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\bin\Debug\Practica 1 - Semana 1.pdb
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica_1___Semana_1.Form1.resources
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica_1___Semana_1.Properties.Resources.resources
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.csproj.GenerateResource.cache
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.exe
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.pdb
+C:\Users\Lenovo\Documents\6thcicle\visual\holamundo\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.exe.config
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\bin\Debug\Practica 1 - Semana 1.exe.config
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\bin\Debug\Practica 1 - Semana 1.exe
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\bin\Debug\Practica 1 - Semana 1.pdb
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.exe.config
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica_1___Semana_1.Form1.resources
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica_1___Semana_1.Properties.Resources.resources
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.csproj.GenerateResource.cache
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.exe
+C:\Users\Lenovo\Documents\6thcicle\visual\Semana 1\Practica 1 - Semana 1\Practica 1 - Semana 1\obj\Debug\Practica 1 - Semana 1.pdb
