@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data; // para DataTable().Compute
+using System.Globalization;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +19,52 @@ namespace Calculator_Sixseven
             InitializeComponent();
         }
 
+        private bool IsPlainNumber(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return false;
+            // intenta parsear con InvariantCulture para '.' como separador decimal
+            return double.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out _);
+        }
+
+        private void AppendOperatorToScreen(string op)
+        {
+            if (txtScreen.TextLength == 0)
+            {
+                // si está vacío y quieres permitir signos iniciales, podrías manejar +/-. Aquí no hacemos nada.
+                return;
+            }
+
+            // si el último caracter ya es un operador, lo reemplazamos
+            char last = txtScreen.Text[txtScreen.Text.Length - 1];
+            if ("+-*/%^".Contains(last))
+            {
+                txtScreen.Text = txtScreen.Text.Substring(0, txtScreen.Text.Length - 1) + op;
+            }
+            else
+            {
+                txtScreen.Text += op;
+            }
+        }
+
+        private bool TryGetScreenValue(out double value)
+        {
+            value = 0;
+            string s = txtScreen.Text?.Trim() ?? "";
+
+            // Primero intenta con la cultura actual (por si usas ',' como decimal)
+            if (double.TryParse(s, NumberStyles.Number, CultureInfo.CurrentCulture, out value))
+                return true;
+
+            // Luego intenta con InvariantCulture (punto decimal)
+            if (double.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out value))
+                return true;
+
+            // No es un número "plano"
+            return false;
+        }
+
+
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -28,7 +76,7 @@ namespace Calculator_Sixseven
         double memoria = 0;
         private void btnClear_Click(object sender, EventArgs e)
         {
-            txtScreen.Text = "0";
+            txtScreen.Text = "";
             num1 = 0;
             num2 = 0;
             operador = "";
@@ -37,7 +85,7 @@ namespace Calculator_Sixseven
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            if (txtScreen.TextLength == 1) txtScreen.Text = "0";
+            if (txtScreen.TextLength == 1) txtScreen.Text = "";
             else txtScreen.Text = txtScreen.Text.Substring(0, txtScreen.Text.Length - 1);
 
         }
@@ -110,33 +158,111 @@ namespace Calculator_Sixseven
         {
             operador =  "+";
             num1 = Convert.ToDouble(txtScreen.Text);
-            txtScreen.Text = "0";
+            txtScreen.Text = "";
+
+            if (IsPlainNumber(txtScreen.Text))
+            {
+                operador = "+";
+                num1 = Convert.ToDouble(txtScreen.Text, CultureInfo.InvariantCulture);
+                txtScreen.Text = "";
+            }
+            else
+            {
+                // estamos escribiendo una expresión (posiblemente con paréntesis), así que añadimos '+' al texto
+                AppendOperatorToScreen("+");
+            }
         }
 
         private void btnResta_Click(object sender, EventArgs e)
         {
             operador = "-";
             num1 = Convert.ToDouble(txtScreen.Text);
-            txtScreen.Text = "0";
+            txtScreen.Text = "";
+
+            if (IsPlainNumber(txtScreen.Text))
+            {
+                operador = "-";
+                num1 = Convert.ToDouble(txtScreen.Text, CultureInfo.InvariantCulture);
+                txtScreen.Text = "";
+            }
+            else
+            {
+                // estamos escribiendo una expresión (posiblemente con paréntesis), así que añadimos '+' al texto
+                AppendOperatorToScreen("-");
+            }
         }
 
         private void btnMultiplicacion_Click(object sender, EventArgs e)
         {
             operador = "*";
             num1 = Convert.ToDouble(txtScreen.Text);
-            txtScreen.Text = "0";
+            txtScreen.Text = "";
+            if (IsPlainNumber(txtScreen.Text))
+            {
+                operador = "*";
+                num1 = Convert.ToDouble(txtScreen.Text, CultureInfo.InvariantCulture);
+                txtScreen.Text = "";
+            }
+            else
+            {
+                // estamos escribiendo una expresión (posiblemente con paréntesis), así que añadimos '+' al texto
+                AppendOperatorToScreen("*");
+            }
+
+            if (txtScreen.TextLength == 0) return;
+
+            char last = txtScreen.Text[txtScreen.Text.Length - 1];
+            if ("+-*/%^".Contains(last))
+                txtScreen.Text = txtScreen.Text.Substring(0, txtScreen.Text.Length - 1) + "*";
+            else
+                txtScreen.Text += "*";
         }
 
         private void btnDivision_Click(object sender, EventArgs e)
         {
             operador = "/";
             num1 = Convert.ToDouble(txtScreen.Text);
-            txtScreen.Text = "0";
+            txtScreen.Text = "";
+
+            if (IsPlainNumber(txtScreen.Text))
+            {
+                operador = "/";
+                num1 = Convert.ToDouble(txtScreen.Text, CultureInfo.InvariantCulture);
+                txtScreen.Text = "";
+            }
+            else
+            {
+                // estamos escribiendo una expresión (posiblemente con paréntesis), así que añadimos '+' al texto
+                AppendOperatorToScreen("/");
+            }
         }
 
         private void button18_Click(object sender, EventArgs e)
         {
-            num2 = Convert.ToDouble(txtScreen.Text);
+            string expr = txtScreen.Text?.Trim() ?? "";
+
+            // 1) Intentar evaluar la expresión con DataTable().Compute (soporta paréntesis y + - * / %).
+            try
+            {
+                // Nota: DataTable.Compute NO interpreta '^' como potencia; lo trataríamos aparte si lo necesitas.
+                var resultObj = new DataTable().Compute(expr, null);
+                // Convertir a string respetando la cultura del usuario
+                txtScreen.Text = Convert.ToString(resultObj, CultureInfo.CurrentCulture);
+                return;
+            }
+            catch
+            {
+                // Si falla (sintaxis mixta o ^), caemos a la lógica tradicional.
+            }
+
+            // 2) Lógica clásica: num1 operador num2 (fallback)
+            if (!TryGetScreenValue(out double v))
+            {
+                MessageBox.Show("Expresión incompleta o formato inválido.");
+                return;
+            }
+
+            num2 = v;
             double resultOperation = 0;
 
             switch (operador)
@@ -144,51 +270,31 @@ namespace Calculator_Sixseven
                 case "+":
                     resultOperation = num1 + num2;
                     break;
-
                 case "-":
                     resultOperation = num1 - num2;
                     break;
-
                 case "*":
                     resultOperation = num1 * num2;
                     break;
-
                 case "/":
-                    if (num2 != 0) // Evitar división por cero
-                    {
-                        resultOperation = num1 / num2;
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se puede dividir por cero.");
-                        return;
-                    }
+                    if (num2 != 0) resultOperation = num1 / num2;
+                    else { MessageBox.Show("No se puede dividir por cero."); return; }
                     break;
-
                 case "%":
-                    if (num2 != 0)
-                    {
-                        resultOperation = num1 % num2;
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se puede calcular el residuo con divisor cero.");
-                        return;
-                    }
+                    if (num2 != 0) resultOperation = num1 % num2;
+                    else { MessageBox.Show("No se puede calcular el residuo con divisor cero."); return; }
                     break;
                 case "^":
-
                     resultOperation = Math.Pow(num1, num2);
                     break;
-
                 default:
                     MessageBox.Show("Operación no válida.");
                     return;
             }
 
-            txtScreen.Text = resultOperation.ToString();
-        
+            txtScreen.Text = resultOperation.ToString(CultureInfo.CurrentCulture);
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -199,13 +305,15 @@ namespace Calculator_Sixseven
         {
             double current = Convert.ToDouble(txtScreen.Text); //toma el valor en la pantalla.
             memoria += current; //suma el valor del current a la memoria.
+            txtScreen.Text = "0"; //opcional, mostrar por pantalla 0
         }
 
         private void btnMminus_Click(object sender, EventArgs e)
         {
             //aqui es lo contrario, en vez de sumar
             double current = Convert.ToDouble(txtScreen.Text); //toma el valor en la pantalla.
-            memoria += current; //se resta.
+            memoria -= current; //se resta.
+            txtScreen.Text = "0"; //opcional, mostrar por pantalla 0
         }
 
         private void btnMR_Click(object sender, EventArgs e)
@@ -295,7 +403,7 @@ namespace Calculator_Sixseven
             }
 
             double result = 1; //si todo va bien, inicia un acumulador
-            for (int i = 0; i <= (int)val; i++)  // calculo de factorial 
+            for (int i = 1; i <= (int)val; i++)  // calculo de factorial 
             {
                 result *= i;
             
